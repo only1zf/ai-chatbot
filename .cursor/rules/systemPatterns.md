@@ -68,13 +68,52 @@ alwaysApply: false
 
 ## 组件关系
 
-```
+项目的组件结构遵循清晰的层次关系：
 
-```
+1. **布局组件**：
+   - `app/layout.tsx`：提供全局布局和主题支持
+   - `app/(chat)/layout.tsx`：聊天页面的特定布局
+
+2. **页面组件**：
+   - `app/(chat)/page.tsx`：聊天主页面
+   - `app/(auth)/*/page.tsx`：身份验证相关页面
+
+3. **功能组件**：
+   - `components/chat.tsx`：聊天界面的核心组件
+   - `components/messages.tsx`：消息列表组件
+   - `components/message.tsx`：单条消息组件
+   - `components/model-selector.tsx`：模型选择组件
+
+4. **UI 组件**：
+   - `components/ui/`：通用 UI 组件库
+   - `components/icons.tsx`：图标组件
+
+5. **工具和服务**：
+   - `lib/ai/`：AI 模型和提供商相关功能
+   - `lib/db/`：数据库操作和模型定义
+   - `lib/utils.ts`：通用工具函数
 
 核心数据流：
 
-1. 用户在客户端输入消息
-2. 通过服务器组件或 Server Actions 将请求发送到 AI 提供商
-3. 流式接收 AI 响应并更新 UI
-4. 将对话历史保存到数据库
+1. 用户在客户端输入消息（通过 `components/chat.tsx`）
+2. 通过服务器组件或 Server Actions（`app/(chat)/actions.ts`）将请求发送到 AI 提供商
+3. 使用 AI SDK（`lib/ai/providers.ts`）与 AI 模型交互
+4. 流式接收 AI 响应并更新 UI（使用 `components/message.tsx` 显示）
+5. 将对话历史保存到数据库（通过 `lib/db/` 中的函数）
+
+特殊组件关系：
+
+1. **聊天相关组件**：
+   - `chat.tsx` → `messages.tsx` → `message.tsx`：形成消息显示的层次结构
+   - `multimodal-input.tsx`：处理多模态输入（文本、图像等）
+   - `message-actions.tsx`：提供消息相关的操作按钮
+
+2. **编辑器组件**：
+   - `code-editor.tsx`：代码编辑器组件
+   - `text-editor.tsx`：文本编辑器组件
+   - `sheet-editor.tsx`：表格编辑器组件
+
+3. **AI 模型集成**：
+   - `lib/ai/models.ts`：定义支持的 AI 模型
+   - `lib/ai/providers.ts`：配置 AI 提供商
+   - `lib/ai/prompts.ts`：定义系统提示词

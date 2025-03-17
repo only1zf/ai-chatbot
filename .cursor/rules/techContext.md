@@ -30,7 +30,25 @@ alwaysApply: false
 
 - **Vercel AI SDK**：用于集成 AI 模型的工具包
 - **OpenAI API**：默认的 AI 模型提供商 (GPT-4o)
+- **Fireworks AI**：提供 DeepSeek 模型支持
 - **支持其他提供商**：Anthropic、Cohere 等
+
+#### AI 模型配置
+
+项目中定义了多种 AI 模型类型：
+
+1. **聊天模型**：
+   - `chat-model-small`：使用 OpenAI 的 gpt-4o-mini，适用于轻量级任务
+   - `chat-model-large`：使用 OpenAI 的 gpt-4o，适用于复杂任务
+   - `chat-model-reasoning`：使用 Fireworks 的 deepseek-r1，具有推理能力
+
+2. **辅助模型**：
+   - `title-model`：使用 OpenAI 的 gpt-4-turbo，用于生成标题
+   - `artifact-model`：使用 OpenAI 的 gpt-4o-mini，用于处理人工制品
+
+3. **图像模型**：
+   - `small-model`：使用 OpenAI 的 DALL-E 2
+   - `large-model`：使用 OpenAI 的 DALL-E 3
 
 ### 身份验证和安全
 
@@ -90,22 +108,37 @@ alwaysApply: false
 
 ### 核心依赖
 
-- **next**: ^14.0.0
-- **react**: ^18.2.0
-- **react-dom**: ^18.2.0
-- **ai**: ^2.2.22
-- **tailwindcss**: ^3.3.0
-- **typescript**: ^5.0.0
-- **drizzle-orm**: ^0.28.0
-- **next-auth**: ^4.22.1
+- **next**: ^15.2.2-canary.1
+- **react**: 19.0.0-rc-45804af1-20241021
+- **react-dom**: 19.0.0-rc-45804af1-20241021
+- **ai**: 4.1.50
+- **@ai-sdk/openai**: 1.2.0
+- **@ai-sdk/fireworks**: 0.1.12
+- **@ai-sdk/react**: ^1.1.23
+- **tailwindcss**: ^3.4.17
+- **typescript**: ^5.8.2
+- **drizzle-orm**: ^0.34.1
+- **next-auth**: 5.0.0-beta.25
 
 ### 开发依赖
 
-- **@types/node**: ^20.0.0
-- **@types/react**: ^18.2.0
-- **@types/react-dom**: ^18.2.0
-- **eslint**: ^8.45.0
-- **@biomejs/biome**: ^1.4.0
-- **@playwright/test**: ^1.36.0
+- **@types/node**: ^22.13.10
+- **@types/react**: ^18.3.18
+- **@types/react-dom**: ^18.3.5
+- **eslint**: ^8.57.1
+- **@biomejs/biome**: 1.9.4
+- **@playwright/test**: ^1.51.0
 
 系统主要使用 pnpm 进行依赖管理，package.json 中定义了完整的依赖列表。
+
+## 特殊技术实现
+
+1. **AI 模型集成**：
+   - 使用 `lib/ai/providers.ts` 配置不同的 AI 提供商
+   - 通过 `customProvider` 创建统一的模型访问接口
+   - 使用中间件（如 `extractReasoningMiddleware`）增强模型功能
+
+2. **组件结构**：
+   - 使用函数式组件和 React Hooks
+   - 组件文件大小控制在 256 行以内
+   - 单个函数不超过 64 行
