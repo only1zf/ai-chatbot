@@ -20,6 +20,15 @@ import {
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();
+  // 获取构建时间或当前时间
+  const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 
   return (
     <SidebarMenu>
@@ -27,13 +36,18 @@ export function SidebarUserNav({ user }: { user: User }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
-              <Image
-                src={`https://avatar.vercel.sh/${user.email}`}
-                alt={user.email ?? 'User Avatar'}
-                width={24}
-                height={24}
-                className="rounded-full"
-              />
+              <div className="flex flex-row items-center gap-2">
+                <Image
+                  src={`https://avatar.vercel.sh/${user.email}`}
+                  alt={user.email ?? 'User Avatar'}
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                />
+                <span className="text-xs text-muted-foreground">
+                  Build: {buildTime}
+                </span>
+              </div>
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
