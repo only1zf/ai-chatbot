@@ -28,7 +28,7 @@ export const myProvider = isTestEnvironment
       'chat-model-small': openai('gpt-4o-mini'),
       'chat-model-large': openai('gpt-4o'),
       'chat-model-reasoning': deepseek('deepseek-reasoner'),
-      'title-model': openai('gpt-4-turbo'),
+      'title-model': openai('gpt-4o'),
       'artifact-model': openai('gpt-4o-mini'),
     },
     imageModels: {
